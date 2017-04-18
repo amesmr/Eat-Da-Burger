@@ -18,19 +18,47 @@
             </div>
         </div>
     </nav>
-  {{#each burgers}}
-        {{#if this.devoured}}
-            {{!--devoured burgers go here on right side of page--}}
-        {{else}}
-            {{!--undevoured burgers go here on the left side of the page--}}
-            <div "panel panel-default col-md-6">
-                <div class="panel-heading">
-                    <div class="panel-title quote">{{this.id}}. {{this.burger_name}} </p>
+    <div class="container">
+        <div class="col-lg-6 col-md-6">
+        {{#each burgers}}
+            {{#unless this.devoured}}
+                {{!--undevoured burgers go here on the left side of the page--}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title quote">
+                            <p>{{this.id}}</p>
+                        </div>
+                        <h4>{{this.burger_name}}</h4>
+                        <form action="/{{this.item_id}}?_method=PUT" method="POST">
+                            <input type="hidden" name="devoured" value=1>
+                            <button type="submit">Devour it!</button>
+                        </form>
                     </div>
                 </div>
-            </div>
-        {{/if}}
-    <hr> {{/each}}
+            {{/unless}}
+        {{/each}}
+        </div>
+        <div class=" col-lg-6 col-md-6">
+        {{#each burgers}}
+            {{#if this.devoured}}
+                {{!--devoured burgers go here on right side of page--}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title quote">
+                            <p>{{this.id}}</p>
+                        </div>
+                        <h4>{{this.burger_name}}</h4>
+                        <form action="/uneat/{{this.item_id}}?_method=PUT" method="POST">
+                            <input type="hidden" name="devoured" value=0>
+                            <button type="submit">Hurl it up!</button>
+                        </form>
+                    </div>
+                </div>
+            {{/if}}
+        {{/each}}
+        </div>
+    </div> {{!-- end right container --}}
+
     <footer id="footer">
         <div>
             <div class="row">
@@ -38,7 +66,7 @@
                     <p>Copyright &copy;2017 Eat-Da-Burger. All Rights Reserved.</p>
                 </div>
                 <div class="col-md-4">
-                    <p>Developed by <a href="/index">Matt Ames</a></p>
+                    <p>Developed by <a href="https://github.com/amesmr">Matt Ames</a></p>
                 </div>
                 <div class="col-md-2">
                     <p><a href="/">Home</a></p>

@@ -7,7 +7,7 @@ var router = express.Router();
 // Import the model (burgers.js) to use its database functions.
 
 // Create all our routes and set up logic within those routes where required.
-router.get("/index", function (req, res) {
+router.get("/", function (req, res) {
     burgers.selectAll(function (data) {
         var hbsObject = {
             burgers: data
@@ -17,13 +17,13 @@ router.get("/index", function (req, res) {
     });
 });
 
-router.post("/index", function (req, res) {
+router.post("/", function (req, res) {
     burgers.insertOne([
         "burger_name", "devoured"
     ], [
             req.body.name, false
         ], function () {
-            res.redirect("/index");
+            res.redirect("/");
         });
 });
 
@@ -31,7 +31,17 @@ router.put("/:id", function (req, res) {
     var condition = "id = " + req.params.id;
     console.log("condition", condition);
     burgers.updateOne({
-        devoured: true
+        devoured: 1
+    }, condition, function () {
+        res.redirect("/");
+    });
+});
+
+router.put("/uneat/:id", function (req, res) {
+    var condition = "id = " + req.params.id;
+    console.log("condition", condition);
+    burgers.updateOne({
+        devoured: 0
     }, condition, function () {
         res.redirect("/");
     });
